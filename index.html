@@ -8,6 +8,100 @@
     <meta name="author" content="Michał Burzyński">
     <title>Calculator JS</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&amp;subset=latin-ext" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #2b2b2b;
+        }
+
+        .calculator {
+            height: 75vh;
+            max-width: 960px;
+            display: flex;
+            flex-direction: column;
+            margin: calc(25vh / 2) 15vw 0 15vw;
+            font-family: 'Roboto', Arial, Helvetica, sans-serif;
+            color: #fff;
+        }
+
+        @media screen and (min-width: 1372px) {
+            .calculator {
+                margin: calc(25vh / 2) auto 0 auto;
+            }
+        }
+
+        .result {
+            flex-basis: 15%;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 5vw;
+            border: 6px solid goldenrod;
+            font-size: 8vh;
+        }
+
+        .panel {
+            flex-grow: 1;
+            background-color: royalblue;
+            display: flex;
+            flex-wrap: wrap;
+            font-size: 5vh;
+        }
+
+        .panel-item {
+            flex: 1 0 30%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid goldenrod;
+            cursor: pointer;
+        }
+
+        .panel-item:nth-child(1),
+        .panel-item:nth-child(2),
+        .panel-item:nth-child(3) {
+            border-top: none;
+        }
+
+        .panel-item:nth-child(1),
+        .panel-item:nth-child(4),
+        .panel-item:nth-child(7),
+        .panel-item:nth-child(10),
+        .panel-item:nth-child(13),
+        .panel-item:nth-child(16) {
+            border-left: 6px solid goldenrod;
+        }
+
+        .panel-item:nth-child(3),
+        .panel-item:nth-child(6),
+        .panel-item:nth-child(9),
+        .panel-item:nth-child(12),
+        .panel-item:nth-child(15),
+        .panel-item:nth-child(17) {
+            border-right: 6px solid goldenrod;
+        }
+
+        .panel-item:nth-last-child(1),
+        .panel-item:nth-last-child(2) {
+            border-bottom: 6px solid goldenrod;
+            background-color: brown;
+        }
+
+        .clear {
+            text-transform: uppercase;
+        }
+
+        .panel-item:hover {
+            background-color: goldenrod;
+        }
+    </style>
 </head>
 
 <body>
