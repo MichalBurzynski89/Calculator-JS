@@ -10,29 +10,24 @@ let secondNumber = '';
 numbers.forEach(number => {
     number.addEventListener('click', function () {
         if (!calcResult.textContent.match(/[^0-9, .]/)) {
-            firstNumber !== '0' ? firstNumber += this.textContent : firstNumber = this.textContent;
-            equation[0] = Number(firstNumber);
-            calcResult.textContent = firstNumber;
+            if (firstNumber.length < 16) {
+                firstNumber !== '0' ? firstNumber += this.textContent : firstNumber = this.textContent;
+                equation[0] = Number(firstNumber);
+                calcResult.textContent = firstNumber;
+            }
         } else {
-            secondNumber !== '0' ? secondNumber += this.textContent : secondNumber = this.textContent;
-            equation[1] = Number(secondNumber);
-            if (calcResult.textContent.split(' ')[2] !== '0') {
-                calcResult.textContent += secondNumber[secondNumber.length - 1];
-            } else {
-                calcResult.textContent = calcResult.textContent.replace(calcResult.textContent[calcResult.textContent.length - 1], this.textContent);
+            if (secondNumber.length < 16) {
+                secondNumber !== '0' ? secondNumber += this.textContent : secondNumber = this.textContent;
+                equation[1] = Number(secondNumber);
+                if (calcResult.textContent.split(' ')[2] !== '0') {
+                    calcResult.textContent += secondNumber[secondNumber.length - 1];
+                } else {
+                    calcResult.textContent = calcResult.textContent.replace(calcResult.textContent[calcResult.textContent.length - 1], this.textContent);
+                }
             }
         }
     });
 });
-
-function math() {
-    if (!(calcResult.textContent.indexOf(this.textContent) > -1)) {
-        calcResult.textContent += ` ${this.textContent} `;
-        mathSymbols.forEach(mathSymbol => mathSymbol.removeEventListener('click', math));
-    }
-}
-
-mathSymbols.forEach(mathSymbol => mathSymbol.addEventListener('click', math));
 
 document.querySelector('.point').addEventListener('click', function () {
     if (!calcResult.textContent.match(/[^0-9, .]/)) {
@@ -54,10 +49,67 @@ document.querySelector('.point').addEventListener('click', function () {
     }
 });
 
+function math() {
+    let mathSymbol = calcResult.textContent.split(' ')[1];
+    if (!mathSymbol) {
+        calcResult.textContent += ` ${this.textContent} `;
+    } else if (secondNumber.length !== 0) {
+        if (mathSymbol === '/') {
+            if (equation[1] === 0) {
+                alert('Nie można dzielić przez 0!');
+                location.reload();
+            } else {
+                calcResult.textContent = equation[0] / equation[1] + ` ${this.textContent} `;
+                equal();
+            }
+        } else if (mathSymbol === '*') {
+            calcResult.textContent = equation[0] * equation[1] + ` ${this.textContent} `;
+            equal();
+        } else if (mathSymbol === '-') {
+            calcResult.textContent = equation[0] - equation[1] + ` ${this.textContent} `;
+            equal();
+        } else if (mathSymbol === '+') {
+            calcResult.textContent = equation[0] + equation[1] + ` ${this.textContent} `;
+            equal();
+        }
+    } else {
+        calcResult.textContent = calcResult.textContent.replace(mathSymbol, this.textContent);
+    }
+}
+
+mathSymbols.forEach(mathSymbol => mathSymbol.addEventListener('click', math));
+
+function equal() {
+    firstNumber = calcResult.textContent.split(' ')[0];
+    secondNumber = '';
+    equation = [Number(firstNumber)];
+}
+
+document.querySelector('.equal').addEventListener('click', function () {
+    let mathSymbol = calcResult.textContent.split(' ')[1];
+    if (mathSymbol === '/') {
+        if (equation[1] === 0) {
+            alert('Nie można dzielić przez 0!');
+            location.reload();
+        } else {
+            calcResult.textContent = equation[0] / equation[1];
+            equal();
+        }
+    } else if (mathSymbol === '*') {
+        calcResult.textContent = equation[0] * equation[1];
+        equal();
+    } else if (mathSymbol === '-') {
+        calcResult.textContent = equation[0] - equation[1];
+        equal();
+    } else if (mathSymbol === '+') {
+        calcResult.textContent = equation[0] + equation[1];
+        equal();
+    }
+});
+
 document.querySelector('.clear').addEventListener('click', function () {
     calcResult.textContent = '0';
     firstNumber = calcResult.textContent;
     secondNumber = '';
     equation = [0];
-    mathSymbols.forEach(mathSymbol => mathSymbol.addEventListener('click', math));
 });
