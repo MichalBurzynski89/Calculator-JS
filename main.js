@@ -22,7 +22,8 @@ numbers.forEach(number => {
                 if (calcResult.textContent.split(' ')[2] !== '0') {
                     calcResult.textContent += secondNumber[secondNumber.length - 1];
                 } else {
-                    calcResult.textContent = calcResult.textContent.replace(calcResult.textContent[calcResult.textContent.length - 1], this.textContent);
+                    calcResult.textContent = calcResult.textContent.slice(0, calcResult.textContent.length - 1);
+                    calcResult.textContent += secondNumber;
                 }
             }
         }
